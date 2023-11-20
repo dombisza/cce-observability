@@ -1,0 +1,43 @@
+repositories:
+  - name: grafana
+    url:  https://grafana.github.io/helm-charts
+releases:
+  - name: loki
+    chart: grafana/loki
+    version: 5.36.0
+    namespace: logging
+    values:
+    - ./charts/loki/values.yaml
+    set:
+      - name: loki.storage.s3.secretAccessKey
+        value: {{ requiredEnv "LOKI_SK" }}
+      - name: loki.storage.s3.accessKeyId
+        value: {{ requiredEnv "LOKI_AK" }}
+      - name: loki.storage.bucketNames.chunks
+        value: {{ requiredEnv "LOKI_S3" }}
+      - name: loki.storage.bucketNames.ruler
+        value: {{ requiredEnv "LOKI_S3" }}
+      - name: loki.storage.bucketNames.admin
+        value: {{ requiredEnv "LOKI_S3" }}
+      - name: loki.storage.s3.region
+        value: {{ requiredEnv "LOKI_REGION" }}
+      - name: loki.storage.s3.endpoint
+        value: {{ requiredEnv "LOKI_S3_EP" }}
+  - name: promtail
+    chart: grafana/promtail
+    version: 6.15.3
+    namespace: logging
+    recreatePods: true
+    values:
+    - ./charts/promtail/values.yaml
+  - name: grafana
+    chart: grafana/grafana
+    version: 6.61.1
+    namespace: logging
+    values:
+    - ./charts/grafana/values.yaml
+helmDefaults:
+    reuseValues: true
+    createNamespace: true 
+commonLabels:
+    stack: observability

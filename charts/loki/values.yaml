@@ -1,0 +1,60 @@
+global:
+  dnsService: "coredns"
+imagePullSecrets:
+  - name: regcred
+loki:
+  commonConfig:
+    replication_factor: 2
+  storage:
+    type: s3
+    # null values will be populated at deploytime from env
+    bucketNames:
+      chunks: null 
+      rules: null
+    s3:
+      region: null 
+      secretAccessKey: null
+      accessKeyId: null
+      endpoint: null 
+      s3ForcePathStyle: false
+      http_config:
+        idle_conn_timeout: 1m
+        response_header_timeout: 0s
+        insecure_skip_verify: false
+  storage_config:
+    boltdb_shipper:
+      active_index_directory: /var/loki/index
+      cache_location: /var/loki/index_cache
+      shared_store: s3
+  auth_enabled: false
+  compactor:
+    retention_enabled: true
+    delete_request_cancel_period: 120m # don't wait 24h before processing the delete_request
+    retention_delete_delay: 120m # wait 120m before actually deleting stuff
+  chunk_store_config:
+    max_look_back_period: 60d # after this period indexes get removed
+  limits_config:
+    retention_period: 60d # after this period chunks will be removed from OBS. This can only remove indexed chunks. https://github.com/grafana/loki/issues/6300#issuecomment-1431887039
+singleBinary:
+  replicas: 2
+  persistence:
+    storageClass: csi-disk-topology
+    size: 10Gi
+  resources:
+    limits:
+      memory: 2Gi
+    requests:
+      memory: 500Mi
+# to keep it simple, only install what is needed for a basic logging pipeline 
+test:
+  enabled: false
+monitoring:
+  enabled: false
+  selfMonitoring:
+    enabled: false 
+    grafanaAgent:
+      installOperator: false
+  lokiCanary:
+    enabled: false 
+  dashboards:
+    enabled: false

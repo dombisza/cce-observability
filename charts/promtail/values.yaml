@@ -1,0 +1,48 @@
+imagePullSecrets:
+  - name: regcred
+resources:
+  limits:
+    cpu: 200m
+    memory: 400Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+extraArgs:
+  - -config.expand-env=true
+extraVolumes:
+  - name: node-logs
+    hostPath:
+      path: /var/log
+extraVolumeMounts:
+  - name: node-logs
+    mountPath: /var/log
+    readOnly: true
+podSecurityContext:
+  runAsUser: 0
+  runAsGroup: 4
+containerSecurityContext:
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
+  allowPrivilegeEscalation: true
+config:
+  snippets:
+    extraScrapeConfigs: |
+      - job_name: cce-logs 
+        static_configs:
+        - targets:
+          - localhost
+          labels:
+            job: node/cce
+            __path__: /var/log/cce/*/*.log
+            kubernetes_hostname: '${HOSTNAME}'
+      - job_name: system-logs 
+        static_configs:
+        - targets:
+          - localhost
+          labels:
+            job: node/system
+            __path__: /var/log/*.log
+            kubernetes_hostname: '${HOSTNAME}'
+
