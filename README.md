@@ -83,6 +83,7 @@ terraform -chdir=./cloud_services init && terraform -chdir=./cloud_services appl
 ```bash
 kubectl create ns logging
 kubectl create secret generic regcred  --from-file=.dockerconfigjson=$HOME/.docker/config.json --type=kubernetes.io/dockerconfigjson -n logging
+kubectl patch storageclass csi-disk-topology -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 ```
 2. Set up environment variables for Loki deployment
 ```bash
