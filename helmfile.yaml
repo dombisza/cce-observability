@@ -1,6 +1,8 @@
 repositories:
   - name: grafana
     url:  https://grafana.github.io/helm-charts
+  - name: prometheus-community 
+    url: https://prometheus-community.github.io/helm-charts
 releases:
   - name: loki
     chart: grafana/loki
@@ -36,6 +38,11 @@ releases:
     namespace: logging
     values:
     - ./charts/grafana/values.yaml
+  - name: prometheus-community
+    chart: prometheus-community/prometheus
+    namespace: logging
+    values:
+    - ./charts/p8s/values.yaml
 helmDefaults:
     reuseValues: true
     createNamespace: true 

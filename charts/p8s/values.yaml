@@ -1,0 +1,14 @@
+global:
+  imagePullSecrets:
+    - name: regcred
+persistence:
+  enabled: true
+  storageClassName: csi-disk-topology
+server:
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 2Gi
+  replicaCount: 1
+  statefulSet:
+    enabled: true
