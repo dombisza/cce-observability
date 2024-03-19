@@ -2,8 +2,8 @@ global:
   imagePullSecrets:
     - name: regcred
 replicas: 1
-headlessService: true
-useStatefulSet: true
+#headlessService: true
+#useStatefulSet: true
 # service:
   # type: NodePort
 # ingress:
@@ -21,8 +21,8 @@ useStatefulSet: true
     # kubernetes.io/elb.autocreate: '{"type":"public","bandwidth_name":"cce-grafana","bandwidth_chargemode":"traffic","bandwidth_size":5,"bandwidth_sharetype":"PER","eip_type":"5_mailbgp"}'
 persistence:
   type: pvc
-  enabled: true 
-  storageClassName: csi-disk-topology 
+  enabled: true
+  storageClassName: csi-disk-topology
   accessModes:
     - ReadWriteOnce
   size: 10Gi
@@ -43,3 +43,36 @@ datasources:
     - name: Prometheus
       type: prometheus
       url: http://prometheus-community-server
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+    - name: 'grafana-dashboards-kubernetes'
+      orgId: 1
+      folder: 'Kubernetes'
+      type: file
+      disableDeletion: true
+      editable: true
+      options:
+        path: /var/lib/grafana/dashboards/grafana-dashboards-kubernetes
+dashboards:
+  grafana-dashboards-kubernetes:
+    coredns:
+      gnetId: 14981
+      datasource: Prometheus
+      revision: 2
+    cluster:
+      gnetId: 3119
+      datasource: Prometheus
+    pod:
+      gnetId: 6417
+      datasource: Prometheus
+    node:
+      gnetId: 15759
+      datasource: Prometheus
+    k8s-views-global:
+      url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-global.json
+      token: ''
+    k8s-views-namespaces:
+      url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-namespaces.json
+      token: ''
