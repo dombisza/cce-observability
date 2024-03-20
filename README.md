@@ -6,18 +6,18 @@ In this stack we will use an encrypted OBS bucket for Loki backend.
 
 ![Image](img/loki-arch-on-otc.png)
 
-### Grafana
+## Grafana
 - deployed as a `statefulset` with 1 replicas
 - uses `EVS` `PVC` for persistance
-- `ingress` is disabled(commented out) by default. Can be configured at `charts/grafana/values.yaml`
+- community dashboards out of the box
 
-### Loki
+## Loki
 - deployed in monolithic mode with 2 `statefulset` replicas
 - uses `EVS` `PVC` for persistance and caching
 - uses encrypted `OBS` to store indexes and log chunks
 - supports lifecycle policies via `compactor` and `limits_config`
 
-### Promtail
+## Promtail
 - deployed as a `deamonset`
 - forwards `pod` and `node` logs to `loki-gateway`
 
@@ -29,11 +29,11 @@ In this stack we will use an encrypted OBS bucket for Loki backend.
 - self-signed TLS certificate
 - Shared ELB and EIP managed by CCE ingress controller
 
-### OBS
+## OBS
 - encrypted `OBS` bucket for loki to store indexes and chunks
 - supports lifecycle policy via `index_expiration` terraform variables
 
-### RBAC
+## RBAC
 - OTC user with the minimum amount of roles needed to access the encrypted OBS bucket
 
 # Dependencies
