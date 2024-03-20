@@ -19,6 +19,14 @@ In this stack we will use an encrypted OBS bucket for Loki backend.
 - deployed as a `deamonset`
 - forwards `pod` and `node` logs to `loki-gateway`
 
+## Prometheus
+- deployed as `statefulset` with one replicas
+- `kube-state-metrics` and `node-exporter` included
+
+## Ingress ELB for Grafana
+- self-signed TLS certificate
+- Shared ELB and EIP managed by CCE ingress controller
+
 ### OBS
 - encrypted `OBS` bucket for loki to store indexes and chunks
 - supports lifecycle policy via `index_expiration` terraform variables
@@ -63,6 +71,7 @@ docker run -it -v$(pwd):/deploy -v$HOME/.docker/config.json:/root/.docker/config
 ```bash
 # update .envrc first
 source .envrc && source get_token.sh
+export GRAFANA_FQDN=[MY_GRAFANA_HOSTNAME]
 ```
 2. Set up OBS backend for terraform  
 ```bash
@@ -89,10 +98,15 @@ kubectl patch storageclass csi-disk-topology -p '{"metadata": {"annotations":{"s
 ```bash
 source get_loki_creds.sh
 ```  
-3. Deploy the stack
+3. Generate a self-signed certificate for Grafana
+```bash
+./gen_self_signed.sh $GRAFANA_FQDN 
+```
+4. Deploy the stack
 ```bash
 helmfile sync
 ```
+5. Update your DNS record with the EIP of the ELB
 
 ### Useful stuff
 
@@ -100,7 +114,7 @@ helmfile sync
 ```bash
 kubectl get secret --namespace logging grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 ```
-
+- Port-forward if you are not using ingress
 ```bash
 kubectl port-forward svc/grafana 8080:80 -n logging
 ```

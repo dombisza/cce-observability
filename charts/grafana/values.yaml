@@ -4,21 +4,21 @@ global:
 replicas: 1
 #headlessService: true
 #useStatefulSet: true
-# service:
-  # type: NodePort
-# ingress:
-  # enabled: true
-  # ingressClassName: cce
-  # hosts:
-    # - <HOSTNAME> 
-  # tls:
-  ##- secretName: my-tls
-  ##     hosts: my-host
-  # annotations:
-    # kubernetes.io/elb.port: '80'
-    # kubernetes.io/elb.class: union
-    # kubernetes.io/ingress.class: cce
-    # kubernetes.io/elb.autocreate: '{"type":"public","bandwidth_name":"cce-grafana","bandwidth_chargemode":"traffic","bandwidth_size":5,"bandwidth_sharetype":"PER","eip_type":"5_mailbgp"}'
+service:
+  type: NodePort
+ingress:
+  enabled: true
+  ingressClassName: cce
+  hosts:
+    - null 
+  tls:
+  - secretName: grafana-tls
+    hosts: 
+      - null 
+  annotations:
+    kubernetes.io/elb.port: '443'
+    kubernetes.io/elb.class: union
+    kubernetes.io/elb.autocreate: '{"type":"public","bandwidth_name":"cce-grafana","bandwidth_chargemode":"traffic","bandwidth_size":5,"bandwidth_sharetype":"PER","eip_type":"5_mailbgp"}'
 persistence:
   type: pvc
   enabled: true

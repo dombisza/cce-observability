@@ -38,6 +38,11 @@ releases:
     namespace: logging
     values:
     - ./charts/grafana/values.yaml
+    set:
+      - name: ingress.hosts[0]
+        value: {{ requiredEnv "GRAFANA_FQDN" }}
+      - name: ingress.tls[0].hosts[0]
+        value: {{ requiredEnv "GRAFANA_FQDN" }}
   - name: prometheus-community
     chart: prometheus-community/prometheus
     namespace: logging
