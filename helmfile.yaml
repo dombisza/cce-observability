@@ -40,9 +40,9 @@ releases:
     - ./charts/grafana/values.yaml
     set:
       - name: ingress.hosts[0]
-        value: {{ requiredEnv "GRAFANA_FQDN" }}
+        value: {{ requiredEnv "TF_VAR_GRAFANA_FQDN" }}
       - name: ingress.tls[0].hosts[0]
-        value: {{ requiredEnv "GRAFANA_FQDN" }}
+        value: {{ requiredEnv "TF_VAR_GRAFANA_FQDN" }}
       - name: "ingress.annotations.kubernetes\\.io/elb\\.id"
         value: {{ requiredEnv "GRAFANA_INGRESS_ELB_ID" }}
   - name: prometheus-community

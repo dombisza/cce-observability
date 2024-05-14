@@ -3,8 +3,8 @@ terraform {
   required_version = "<=1.5.5, >=v1.4.6"
   backend "s3" {
     endpoint                    = "obs.eu-de.otc.t-systems.com"
-    bucket                      = "sdombi-loki-stack-tfstate-e82e9367"
-    kms_key_id                  = "4cf57e12-edb7-4cbe-9f20-ccecd0db41ea" 
+    bucket                      = "sdombi-loki-stack-tfstate-93b927e7"
+    kms_key_id                  = "44d5e318-0e54-4550-9444-0cb0aa89017d" 
     key                         = "loki-stack/tfstate-cloud-service"
     skip_region_validation      = true
     skip_credentials_validation = true
