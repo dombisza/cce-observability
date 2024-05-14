@@ -108,7 +108,7 @@ source get_loki_creds.sh
 ```  
 3. Generate a self-signed certificate for Grafana
 ```bash
-./gen_self_signed.sh $GRAFANA_FQDN 
+./gen_self_signed.sh $TF_VAR_GRAFANA_FQDN 
 ```
 4. Deploy the stack
 ```bash

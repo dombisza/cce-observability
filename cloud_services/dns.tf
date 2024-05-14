@@ -1,13 +1,3 @@
-variable "GRAFANA_DOMAIN" {
-  type = string
-  description = "export TF_VAR_GRAFANA_DOMAIN='mysubnet'"
-}
-
-variable "GRAFANA_FQDN" {
-  type = string
-  description = "export TF_VAR_GRAFANA_FQDN='mysubnet'"
-}
-
 data "opentelekomcloud_dns_zone_v2" "app_zone" {
   name = "${var.GRAFANA_DOMAIN}."
 }
