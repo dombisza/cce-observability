@@ -17,8 +17,9 @@ ingress:
       - null 
   annotations:
     kubernetes.io/elb.port: '443'
-    kubernetes.io/elb.class: union
-    kubernetes.io/elb.autocreate: '{"type":"public","bandwidth_name":"cce-grafana","bandwidth_chargemode":"traffic","bandwidth_size":5,"bandwidth_sharetype":"PER","eip_type":"5_mailbgp"}'
+    kubernetes.io/elb.class: performance
+    kubernetes.io/elb.id: null
+
 persistence:
   type: pvc
   enabled: true
