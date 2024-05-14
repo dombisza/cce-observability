@@ -1,5 +1,5 @@
 # If you have arrived from the community blog-post please follow this repo's guide instead of the blog's, because there were some updates(p8s, ingress, elb) and the blog is not updated yet.
-
+aaaaa
 # Loki-stack
 Loki, Promtail, and Grafana are designed for efficient log aggregation and visualization. Loki, a horizontally scalable log storage system, seamlessly integrates with Promtail, a lightweight log shipper, while Grafana provides a user-friendly interface for exploring and analyzing log data, making the Loki Stack a robust solution for centralized logging and monitoring.  
 In this stack we will use an encrypted OBS bucket for Loki backend.
