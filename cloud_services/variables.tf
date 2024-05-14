@@ -38,3 +38,13 @@ variable "index_expiration" {
   description = "Expiration time of indexes in OBS"
   default     = 365
 }
+
+variable "GRAFANA_DOMAIN" {
+  type = string
+  description = "export TF_VAR_GRAFANA_DOMAIN='grafana domain'"
+}
+
+variable "GRAFANA_FQDN" {
+  type = string
+  description = "export TF_VAR_GRAFANA_FQDN='grafana fqdn'"
+}

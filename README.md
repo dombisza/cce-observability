@@ -42,6 +42,7 @@ In this stack we will use an encrypted OBS bucket for Loki backend.
 - Required:
   - CCE cluster with autoscaling
   - Internet access from VPC
+  - Domain maintained in your OTC Tenant, and used for your Grafana URL/FQDN
 - Optional:
   - Configured `docker/config.json` to create `regcred` secret to avoid dockerhub throttling.
 
@@ -86,6 +87,11 @@ terraform  -chdir=./cloud_services/tf_backend init && terraform -chdir=./cloud_s
 #Set the Loki bucket name and file retention time(OBS lifecycle for indexes) for cloud_services
 echo "s3_chunks = \"MY_BUCKET_NAME\"" > cloud_services/terraform.tfvars
 echo "index_expiration = 100" >> cloud_services/terraform.tfvars
+#Set the VPC Subnet Name in which the ELB should be created
+export TF_VAR_subnet_name='MY_SUBNET_NAME'
+#Set the domain name where you need to add an A record
+export TF_VAR_GRAFANA_DOMAIN=[MY_GRAFANA_DOMAIN]
+export TF_VAR_GRAFANA_FQDN=$GRAFANA_FQDN
 terraform -chdir=./cloud_services init && terraform -chdir=./cloud_services apply
 ```  
 
@@ -102,7 +108,7 @@ source get_loki_creds.sh
 ```  
 3. Generate a self-signed certificate for Grafana
 ```bash
-./gen_self_signed.sh $GRAFANA_FQDN 
+./gen_self_signed.sh $TF_VAR_GRAFANA_FQDN 
 ```
 4. Deploy the stack
 ```bash
