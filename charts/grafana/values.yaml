@@ -1,6 +1,3 @@
-global:
-  imagePullSecrets:
-    - name: regcred
 replicas: 1
 #headlessService: true
 #useStatefulSet: true

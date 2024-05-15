@@ -1,6 +1,3 @@
-global:
-  imagePullSecrets:
-    - name: regcred
 persistence:
   enabled: true
   storageClassName: csi-disk-topology
