@@ -1,7 +1,5 @@
 global:
   dnsService: "coredns"
-imagePullSecrets:
-  - name: regcred
 loki:
   commonConfig:
     replication_factor: 2

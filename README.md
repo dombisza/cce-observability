@@ -43,8 +43,6 @@ In this stack we will use an encrypted OBS bucket for Loki backend.
   - CCE cluster with autoscaling
   - Internet access from VPC
   - Domain maintained in your OTC Tenant, and used for your Grafana URL/FQDN
-- Optional:
-  - Configured `docker/config.json` to create `regcred` secret to avoid dockerhub throttling.
 
 ### Packages
 - [terraform](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli)
@@ -96,10 +94,9 @@ terraform -chdir=./cloud_services init && terraform -chdir=./cloud_services appl
 ```  
 
 ### Deploy on CCE
-1. Create `regcred` secret (optional). If you skip this you have to remove `imagePullSecrets` from the helm values.
+1. Create kubernetes namespace, and set default storageclass to `csi-disk-topology` 
 ```bash
 kubectl create ns logging
-kubectl create secret generic regcred  --from-file=.dockerconfigjson=$HOME/.docker/config.json --type=kubernetes.io/dockerconfigjson -n logging
 kubectl patch storageclass csi-disk-topology -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 ```
 2. Set up environment variables for Loki deployment
