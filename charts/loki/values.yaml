@@ -40,9 +40,9 @@ singleBinary:
     size: 10Gi
   resources:
     limits:
-      memory: 2Gi
+      memory: 6Gi
     requests:
-      memory: 500Mi
+      memory: 2500Mi
 # to keep it simple, only install what is needed for a basic logging pipeline 
 test:
   enabled: false
